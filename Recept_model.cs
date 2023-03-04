@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace Exam_WPF
+namespace Exam_WPF 
 {
     class Recept_model: INotifyPropertyChanged
     {
