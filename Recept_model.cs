@@ -8,7 +8,7 @@ using System.Runtime.CompilerServices;
 
 namespace Exam_WPF 
 {
-    class Recept_model: INotifyPropertyChanged
+    public class Recept_model: INotifyPropertyChanged
     {
         private string name; //название
         private string content; // содержание

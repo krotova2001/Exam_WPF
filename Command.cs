@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace Exam_WPF
 {
-    class Command:ICommand
+    public class Command:ICommand
     {
         private Action<object> execute;
         private Func<object, bool> canExecute;
@@ -33,6 +33,8 @@ namespace Exam_WPF
         {
             this.execute(parameter);
         }
+
+       
 
     }
 }
