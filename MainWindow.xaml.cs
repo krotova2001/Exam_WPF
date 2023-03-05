@@ -23,6 +23,7 @@ namespace Exam_WPF
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new VM();
         }
     }
 }
