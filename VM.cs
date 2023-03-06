@@ -18,7 +18,9 @@ namespace Exam_WPF
         private Recept_model recept;
         public ObservableCollection<Recept_model> Recepts { get; set; } // все рецепты
         private Command save;
-
+        private Command del;
+        
+        //команда сохранить
         public Command Save
         {
             get
@@ -33,6 +35,24 @@ namespace Exam_WPF
             }
         }
 
+        //команда удалить
+        public Command RemoveCommand // команда на удаление
+        {
+            get
+            {
+                return del ??
+                    (del = new Command(obj =>
+                    {
+                        Recept_model rec = obj as Recept_model;
+                        if (rec != null)
+                            Recepts.Remove(rec);
+                    },
+                    (obj) => Recepts.Count > 0));
+            }
+        }
+
+
+        //выбранный рецепт
         public Recept_model SelectedRecept
         {
             get { return recept; }
@@ -56,6 +76,16 @@ namespace Exam_WPF
             {
                 JsonSerializer.Serialize(fs, Recepts);
             }    
+        }
+
+        //загрузка
+        public void Load_from_file()
+        {
+            if (File.Exists("Recepts.json"))
+            {
+                string source = File.ReadAllText("Recepts.json");
+                Recepts = JsonSerializer.Deserialize<ObservableCollection<Recept_model>>(source);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

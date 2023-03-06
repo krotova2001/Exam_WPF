@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Aspose;
+using Aspose.Pdf;
 
 namespace Exam_WPF 
 {
@@ -66,6 +68,22 @@ namespace Exam_WPF
             }
         }
 
+        
+        public void Export_to_dpf()
+        {
+            // Initialize document object
+            Document document = new Document();
+            // Add page
+            Page page = document.Pages.Add();
+            // Add text to new page
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(name));
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(categoty));
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(Kitchen));
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment("Ингридиенты: " + ingridients));
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(content));
+            // Save updated PDF
+            document.Save($"{name}.pdf");
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

@@ -24,6 +24,7 @@ namespace Exam_WPF
         {
             InitializeComponent();
             DataContext = new VM();
+           
         }
     }
 }
