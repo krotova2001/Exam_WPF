@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Exam_WPF"
+        xmlns:local="clr-namespace:Exam_WPF" d:DataContext="{d:DesignInstance Type=local:VM}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Рецепты" Height="489" Width="841" Closed="Window_Closed">
     <Window.Resources>
         <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
             <Border Background="{TemplateBinding Background}"
@@ -13,15 +13,63 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="5"
                     Height="25"
-                    Width="80">
-            <ContentPresenter Content="{TemplateBinding Content}"
+                    Width="80"
+                    Margin="5px">
+                <ContentPresenter Content="{TemplateBinding Content}"
                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                     Margin="{TemplateBinding Padding}"
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
         </ControlTemplate>
     </Window.Resources>
-    <Grid>
-        <Button Template="{StaticResource ButtonTemplate}">Helo</Button>
+    <Grid Margin="8px">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="285"/>
+            <ColumnDefinition Width="15"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="0.2*" />
+        </Grid.RowDefinitions>
+
+        <ListBox Grid.Column="0" ItemsSource="{Binding Recepts}"
+                 SelectedItem="{Binding SelectedRecept}" Grid.ColumnSpan="2" Margin="0,0,0,72" Grid.RowSpan="2">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Margin="5">
+                        <TextBlock FontSize="18" Text="{Binding Name}" />
+                        <TextBlock FontSize="14" Text="{Binding Category}" />
+
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3" Margin="0,0,125,0">
+            <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Save}">Добавить</Button>
+            <Button Template="{StaticResource ButtonTemplate}" Command="{Binding RemoveCommand}"
+                    CommandParameter="{Binding SelectedRecept}">Удалить</Button>
+            <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Export_pdf}"
+                    CommandParameter="{Binding SelectedRecept}">Экпорт PDF</Button>
+            <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Export_json}"
+                    CommandParameter="{Binding Recepts}">Экпорт JSON</Button>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" DataContext="{Binding SelectedRecept}" Margin="0,0,0,72" Grid.RowSpan="2">
+            <TextBlock Text="Название рецепта"/>
+            <TextBox Margin="10px" Text="{Binding Path=Name, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Категория"/>
+            <TextBox Margin="10px" Text="{Binding Path=Category, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Кухня"/>
+            <TextBox Margin="10px" Text="{Binding Path=Kitchen, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Ингридиенты:"/>
+            <TextBox Margin="10px" Height="50px" Text="{Binding Path=Ingridients, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="Содержание:"/>
+            <TextBox Margin="10px" Height="100px" Text="{Binding Path=Content, UpdateSourceTrigger=PropertyChanged}"/>
+
+        </StackPanel>
+
     </Grid>
+
 </Window>

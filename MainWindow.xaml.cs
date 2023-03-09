@@ -24,7 +24,11 @@ namespace Exam_WPF
         {
             InitializeComponent();
             DataContext = new VM();
-           
+        }
+
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            
         }
     }
 }

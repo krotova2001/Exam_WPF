@@ -18,6 +18,8 @@ namespace Exam_WPF
         public ObservableCollection<Recept_model> Recepts { get; set; } // все рецепты
         private Command save;
         private Command del;
+        private Command export_json;
+        private Command export_pdf;
         
         //команда сохранить
         public Command Save
@@ -28,9 +30,24 @@ namespace Exam_WPF
                   (save = new Command(obj =>
                   {
                       Recept_model rec = new Recept_model();
-                      Recepts.Insert(0, rec);
                       recept = rec;
+                      Recepts.Insert(0, rec);
+                      
                   }));
+            }
+        }
+
+        public Command Export_pdf
+        {
+            get
+            {
+                return export_pdf ??
+                    (export_pdf = new Command(obj =>
+                    {
+                        Recept_model to_ex = (Recept_model)obj;
+                        to_ex.Export_to_dpf();
+                    }
+                    ));
             }
         }
 
@@ -50,6 +67,18 @@ namespace Exam_WPF
             }
         }
 
+        public Command Export_json
+        {
+            get
+            {
+                return export_json ??
+                    (export_json = new Command(obj =>
+                    {
+                        this.Save_to_file();
+                    }
+                    ));
+            }
+        }
 
         //выбранный рецепт
         public Recept_model SelectedRecept
@@ -65,6 +94,8 @@ namespace Exam_WPF
         public VM()
         {
             Recepts = new ObservableCollection<Recept_model>();
+            if (File.Exists("Recepts.json"))
+                Load_from_file();
         }
 
         //сохранение
