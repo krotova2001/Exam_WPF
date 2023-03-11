@@ -16,9 +16,10 @@ namespace Exam_WPF
     {
         private string name; //название
         private string content; // содержание
-        private List<string> ingridients; // интридиенты
+        private string ingridients; // интридиенты
         private string categoty; // категория
         private string kitchen; // кухня
+        
 
         public String Name
         {
@@ -40,7 +41,7 @@ namespace Exam_WPF
             }
         }
 
-        public List<string> Ingridients
+        public string Ingridients
         {
             get { return ingridients; }
             set
@@ -86,12 +87,14 @@ namespace Exam_WPF
             page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(categoty));
             page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(Kitchen));
             page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment("Ингридиенты: " + ingridients));
-            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment(content));
+            page.Paragraphs.Add(new Aspose.Pdf.Text.TextFragment("Содержание:\n " + content));
              //Save updated PDF
             document.Save($"{name}.pdf");
             if (File.Exists($"{name}.pdf"))
                 MessageBox.Show($"Успешно создан {name}.pdf");
         }
+
+      
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName] string prop = "")

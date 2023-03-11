@@ -8,18 +8,20 @@ using System.Runtime.CompilerServices;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Text.Json;
-
+using System.Windows;
 
 namespace Exam_WPF
 {
     public class VM : INotifyPropertyChanged
     {
-        private Recept_model recept;
+        private Recept_model recept; // выбранный рецепт
         public ObservableCollection<Recept_model> Recepts { get; set; } // все рецепты
         private Command save;
         private Command del;
+        private Command search_command;
         private Command export_json;
         private Command export_pdf;
+        private string search_string; // строка поиска
         
         //команда сохранить
         public Command Save
@@ -29,14 +31,13 @@ namespace Exam_WPF
                 return save ??
                   (save = new Command(obj =>
                   {
-                      Recept_model rec = new Recept_model();
-                      recept = rec;
-                      Recepts.Insert(0, rec);
-                      
+                      Recept_model recept = new Recept_model();
+                      Recepts.Insert(0, recept);
+                      SelectedRecept = recept;
                   }));
             }
         }
-
+       
         public Command Export_pdf
         {
             get
@@ -80,6 +81,21 @@ namespace Exam_WPF
             }
         }
 
+        public Command Search_command
+        {
+            get
+            {
+                return search_command ??
+                    (search_command = new Command(obj =>
+                    {
+                        string s = obj as string;
+                        SelectedRecept = this.Search(s);
+                    }
+                    ));
+            }
+        }
+
+
         //выбранный рецепт
         public Recept_model SelectedRecept
         {
@@ -88,6 +104,16 @@ namespace Exam_WPF
             {
                 recept = value;
                 OnPropertyChanged("SelectedRecept");
+            }
+        }
+
+        public string Search_string
+        {
+            get { return search_string; }
+            set
+            {
+                search_string = value;
+                OnPropertyChanged("Search_string");
             }
         }
 
@@ -105,7 +131,9 @@ namespace Exam_WPF
             using (FileStream fs = new FileStream("Recepts.json", FileMode.Create, FileAccess.ReadWrite))
             {
                 JsonSerializer.Serialize(fs, Recepts);
-            }    
+            }
+            if (File.Exists("Recepts.json"))
+                MessageBox.Show("Рецепты сохранены");
         }
 
         //загрузка
@@ -116,6 +144,19 @@ namespace Exam_WPF
                 string source = File.ReadAllText("Recepts.json");
                 Recepts = JsonSerializer.Deserialize<ObservableCollection<Recept_model>>(source);
             }
+        }
+
+        public Recept_model Search(string s)
+        {
+            if (s != null)
+            {
+                foreach (Recept_model R in Recepts)
+                {
+                    if (R.Ingridients.ToLower().Contains(s.ToLower()))
+                        return R;
+                }
+            }
+            return null;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

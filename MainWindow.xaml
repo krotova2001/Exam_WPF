@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Exam_WPF" d:DataContext="{d:DesignInstance Type=local:VM}"
         mc:Ignorable="d"
-        Title="Рецепты" Height="489" Width="841" Closed="Window_Closed">
+        Title="Рецепты" Height="644.765" Width="971.23" Closed="Window_Closed">
     <Window.Resources>
         <ControlTemplate x:Key="ButtonTemplate" TargetType="{x:Type Button}">
             <Border Background="{TemplateBinding Background}"
@@ -34,7 +34,7 @@
         </Grid.RowDefinitions>
 
         <ListBox Grid.Column="0" ItemsSource="{Binding Recepts}"
-                 SelectedItem="{Binding SelectedRecept}" Grid.ColumnSpan="2" Margin="0,0,0,72" Grid.RowSpan="2">
+                 SelectedItem="{Binding SelectedRecept}" Grid.ColumnSpan="2" Margin="0,0,0,124">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Margin="5">
@@ -46,7 +46,7 @@
             </ListBox.ItemTemplate>
 
         </ListBox>
-        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3" Margin="0,0,125,0">
+        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal" Grid.ColumnSpan="3" Margin="0,0,479,0">
             <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Save}">Добавить</Button>
             <Button Template="{StaticResource ButtonTemplate}" Command="{Binding RemoveCommand}"
                     CommandParameter="{Binding SelectedRecept}">Удалить</Button>
@@ -54,6 +54,7 @@
                     CommandParameter="{Binding SelectedRecept}">Экпорт PDF</Button>
             <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Export_json}"
                     CommandParameter="{Binding Recepts}">Экпорт JSON</Button>
+            <Button Template="{StaticResource ButtonTemplate}" Command="{Binding Search_command}" CommandParameter="{Binding Search_string}">Поиск</Button>
         </StackPanel>
 
         <StackPanel Grid.Column="2" DataContext="{Binding SelectedRecept}" Margin="0,0,0,72" Grid.RowSpan="2">
@@ -69,6 +70,8 @@
             <TextBox Margin="10px" Height="100px" Text="{Binding Path=Content, UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
+        <TextBox x:Name="texbox_search" Text="{Binding Path=Search_string}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="275,38,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="351" />
+        <Label Content="Поиск" Grid.Column="2" HorizontalAlignment="Left" Margin="213,37,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>
 
