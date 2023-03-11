@@ -90,6 +90,8 @@ namespace Exam_WPF
                     {
                         string s = obj as string;
                         SelectedRecept = this.Search(s);
+                        OnPropertyChanged("SelectedRecept");
+
                     }
                     ));
             }

@@ -70,7 +70,13 @@
             <TextBox Margin="10px" Height="100px" Text="{Binding Path=Content, UpdateSourceTrigger=PropertyChanged}"/>
 
         </StackPanel>
-        <TextBox x:Name="texbox_search" Text="{Binding Path=Search_string}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="275,38,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="351" />
+
+        <TextBox x:Name="texbox_search" Text="{Binding Path=Search_string, UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="275,38,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="351" >
+            <TextBox.InputBindings>
+                <KeyBinding Key="Enter" Command="{Binding Search_command}" CommandParameter="{Binding Search_string}"/>
+            </TextBox.InputBindings>
+        </TextBox>
+
         <Label Content="Поиск" Grid.Column="2" HorizontalAlignment="Left" Margin="213,37,0,0" Grid.Row="1" VerticalAlignment="Top"/>
 
     </Grid>
